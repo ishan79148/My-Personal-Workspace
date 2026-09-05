@@ -1,0 +1,84 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  passwordHash  String?
+  image         String?
+  createdAt     DateTime  @default(now())
+
+  memberships   WorkspaceMember[]
+  pagesCreated  Page[]            @relation("PageAuthor")
+}
+
+model Workspace {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+
+  members     WorkspaceMember[]
+  pages       Page[]
+}
+
+enum WorkspaceRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model WorkspaceMember {
+  id           String        @id @default(cuid())
+  role         WorkspaceRole @default(EDITOR)
+  userId       String
+  workspaceId  String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  title       String   @default("Untitled")
+  icon        String?
+  content     Json?    // block/rich-text JSON from the editor
+  position    Int      @default(0)      // sibling ordering
+  isArchived  Boolean  @default(false)
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  parentId    String?
+  parent      Page?     @relation("PageToPage", fields: [parentId], references: [id], onDelete: Cascade)
+  children    Page[]    @relation("PageToPage")
+
+  authorId    String
+  author      User      @relation("PageAuthor", fields: [authorId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  versions    PageVersion[]
+
+  @@index([workspaceId, parentId])
+}
+
+model PageVersion {
+  id        String   @id @default(cuid())
+  pageId    String
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  content   Json
+  createdAt DateTime @default(now())
+}
