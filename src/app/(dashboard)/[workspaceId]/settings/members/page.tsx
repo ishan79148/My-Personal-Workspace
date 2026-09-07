@@ -4,17 +4,18 @@ import { inviteMember } from "@/actions/member-actions";
 export default async function MembersPage({
   params,
 }: {
-  params: { workspaceId: string };
+  params: Promise<{ workspaceId: string }>;
 }) {
+  const { workspaceId } = await params;
   const members = await db.workspaceMember.findMany({
-    where: { workspaceId: params.workspaceId },
+    where: { workspaceId },
     include: { user: true },
   });
 
   async function handleInvite(formData: FormData) {
     "use server";
     const email = formData.get("email") as string;
-    await inviteMember(params.workspaceId, email, "EDITOR");
+    await inviteMember(workspaceId, email, "EDITOR");
   }
 
   return (

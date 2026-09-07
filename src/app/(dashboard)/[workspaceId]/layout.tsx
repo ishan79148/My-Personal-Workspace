@@ -7,12 +7,13 @@ export default async function WorkspaceLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { workspaceId: string };
+  params: Promise<{ workspaceId: string }>;
 }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const member = await getMembership(session.user.id, params.workspaceId);
+  const { workspaceId } = await params;
+  const member = await getMembership(session.user.id, workspaceId);
   if (!member) redirect("/no-access");
 
   return <>{children}</>;

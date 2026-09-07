@@ -5,10 +5,11 @@ import { Editor } from "@/components/editor/Editor";
 export default async function NotePage({
   params,
 }: {
-  params: { workspaceId: string; noteId: string };
+  params: Promise<{ workspaceId: string; noteId: string }>;
 }) {
+  const { workspaceId, noteId } = await params;
   const page = await db.page.findFirst({
-    where: { id: params.noteId, workspaceId: params.workspaceId },
+    where: { id: noteId, workspaceId: workspaceId },
   });
 
   if (!page) notFound();

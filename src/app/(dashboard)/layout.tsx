@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { WorkspaceSwitcher } from "@/components/sidebar/WorkspaceSwitcher";
+import { UserNav } from "@/components/sidebar/UserNav";
 
 export default async function DashboardLayout({
   children,
@@ -29,11 +30,17 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-64 border-r border-neutral-100 p-3">
-        <WorkspaceSwitcher
-          workspaces={workspaces}
-          activeWorkspaceId={workspaces[0].id}
-        />
+      <aside className="flex w-64 flex-col justify-between border-r border-neutral-100 p-3">
+        <div>
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-neutral-400">
+            Workspace
+          </label>
+          <WorkspaceSwitcher
+            workspaces={workspaces}
+            activeWorkspaceId={workspaces[0].id}
+          />
+        </div>
+        <UserNav email={session.user.email} name={session.user.name} />
       </aside>
       <div className="flex-1">{children}</div>
     </div>

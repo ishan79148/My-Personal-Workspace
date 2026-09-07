@@ -7,10 +7,11 @@ import { createPage } from "@/actions/page-actions";
 export default async function WorkspaceHomePage({
   params,
 }: {
-  params: { workspaceId: string };
+  params: Promise<{ workspaceId: string }>;
 }) {
+  const { workspaceId } = await params;
   const pages = await db.page.findMany({
-    where: { workspaceId: params.workspaceId, isArchived: false },
+    where: { workspaceId, isArchived: false },
     select: {
       id: true,
       title: true,
@@ -26,14 +27,14 @@ export default async function WorkspaceHomePage({
 
   async function handleCreateTopLevelPage() {
     "use server";
-    const page = await createPage({ workspaceId: params.workspaceId });
-    redirect(`/${params.workspaceId}/${page.id}`);
+    const page = await createPage({ workspaceId });
+    redirect(`/${workspaceId}/${page.id}`);
   }
 
   return (
     <div className="flex">
       <nav className="w-64 border-r border-neutral-100 p-3">
-        <PageTree nodes={tree} workspaceId={params.workspaceId} />
+        <PageTree nodes={tree} workspaceId={workspaceId} />
         <form action={handleCreateTopLevelPage} className="mt-3">
           <button className="text-sm text-neutral-400 hover:text-neutral-700">
             + New page
