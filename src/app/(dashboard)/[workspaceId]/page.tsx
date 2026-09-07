@@ -32,19 +32,26 @@ export default async function WorkspaceHomePage({
   }
 
   return (
-    <div className="flex">
-      <nav className="w-64 border-r border-neutral-100 p-3">
+    <div className="flex min-h-screen">
+      <nav className="w-64 border-r border-line p-3">
         <PageTree nodes={tree} workspaceId={workspaceId} />
-        <form action={handleCreateTopLevelPage} className="mt-3">
-          <button className="text-sm text-neutral-400 hover:text-neutral-700">
-            + New page
+        <form action={handleCreateTopLevelPage} className="mt-2">
+          <button className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm text-ink-muted transition hover:bg-paper-dim hover:text-ink">
+            <span className="text-base leading-none text-ink-faint">+</span>
+            New page
           </button>
         </form>
       </nav>
-      <main className="flex-1 p-6">
-        <h1 className="text-lg font-medium text-neutral-400">
-          Select a page from the sidebar, or create a new one.
-        </h1>
+      <main className="flex flex-1 items-center justify-center p-6">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <p className="font-serif text-xl text-ink-muted">
+            Nothing selected yet
+          </p>
+          <p className="max-w-xs text-sm text-ink-faint">
+            Pick a page from the sidebar, or start a new one to begin
+            writing.
+          </p>
+        </div>
       </main>
     </div>
   );

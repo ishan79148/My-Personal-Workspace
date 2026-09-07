@@ -9,6 +9,18 @@ interface EditorProps {
   initialContent: string;
 }
 
+const STATUS_STYLES: Record<string, string> = {
+  saving: "text-gold",
+  saved: "text-moss",
+  error: "text-rust",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  saving: "Saving…",
+  saved: "Saved",
+  error: "Couldn't save — check your connection",
+};
+
 /**
  * Minimal starter editor (plain textarea, Markdown-ish).
  * Swap this out for Tiptap/BlockNote once you're ready for a real
@@ -23,17 +35,19 @@ export function Editor({ pageId, initialContent }: EditorProps) {
   });
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <textarea
-        className="min-h-[60vh] w-full resize-none rounded-md border border-neutral-200 p-4 text-sm leading-relaxed outline-none focus:border-neutral-400"
+        className="min-h-[60vh] w-full resize-none bg-transparent font-serif text-lg leading-relaxed text-ink outline-none placeholder:text-ink-faint"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Start writing..."
+        placeholder="Start writing…"
       />
-      <span className="text-xs text-neutral-400">
-        {status === "saving" && "Saving..."}
-        {status === "saved" && "Saved"}
-        {status === "error" && "Couldn't save — check your connection"}
+      <span
+        className={`text-xs transition-colors ${
+          STATUS_STYLES[status] ?? "text-ink-faint"
+        }`}
+      >
+        {STATUS_LABELS[status] ?? "\u00A0"}
       </span>
     </div>
   );

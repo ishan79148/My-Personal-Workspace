@@ -37,40 +37,56 @@ export default function RegisterPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-72 flex-col gap-3">
-      <h1 className="text-xl font-semibold">Create an account</h1>
-      <input
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="rounded border border-neutral-200 px-3 py-2 text-sm"
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="rounded border border-neutral-200 px-3 py-2 text-sm"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="rounded border border-neutral-200 px-3 py-2 text-sm"
-        required
-        minLength={8}
-      />
-      {error && <p className="text-sm text-red-500">{error}</p>}
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded bg-neutral-900 px-3 py-2 text-sm text-white disabled:opacity-50"
-      >
-        {pending ? "Creating..." : "Create account"}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div>
+        <h1 className="font-serif text-2xl text-ink">Create your workspace</h1>
+        <p className="mt-1 text-sm text-ink-muted">
+          Takes less than a minute — no credit card, ever.
+        </p>
+      </div>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-xs font-medium text-ink-muted">Name</span>
+        <input
+          placeholder="Ada Lovelace"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="field"
+          required
+        />
+      </label>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-xs font-medium text-ink-muted">Email</span>
+        <input
+          type="email"
+          placeholder="you@company.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="field"
+          required
+        />
+      </label>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-xs font-medium text-ink-muted">Password</span>
+        <input
+          type="password"
+          placeholder="At least 8 characters"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="field"
+          required
+          minLength={8}
+        />
+      </label>
+      {error && <p className="text-sm text-rust">{error}</p>}
+      <button type="submit" disabled={pending} className="btn-primary mt-1">
+        {pending ? "Creating…" : "Create account"}
       </button>
+      <a
+        href="/login"
+        className="text-center text-xs text-ink-muted hover:text-ink"
+      >
+        Already have an account? Sign in
+      </a>
     </form>
   );
 }

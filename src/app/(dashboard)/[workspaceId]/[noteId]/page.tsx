@@ -22,8 +22,11 @@ export default async function NotePage({
       : "";
 
   return (
-    <div className="mx-auto max-w-3xl p-8">
-      <h1 className="mb-4 text-2xl font-semibold">{page.title}</h1>
+    <div className="mx-auto max-w-3xl px-8 py-12">
+      <div className="mb-8 flex items-center gap-2 text-2xl">
+        <span>{page.icon ?? "📄"}</span>
+        <h1 className="font-serif text-3xl text-ink">{page.title}</h1>
+      </div>
       <Editor pageId={page.id} initialContent={initialText} />
     </div>
   );

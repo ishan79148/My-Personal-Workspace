@@ -38,33 +38,43 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-72 flex-col gap-3">
-      <h1 className="text-xl font-semibold">Sign in</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="rounded border border-neutral-200 px-3 py-2 text-sm"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="rounded border border-neutral-200 px-3 py-2 text-sm"
-        required
-      />
-      {error && <p className="text-sm text-red-500">{error}</p>}
-      <button
-        type="submit"
-        disabled={loading}
-        className="rounded bg-neutral-900 px-3 py-2 text-sm text-white disabled:opacity-50"
-      >
-        {loading ? "Signing in..." : "Sign in"}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div>
+        <h1 className="font-serif text-2xl text-ink">Welcome back</h1>
+        <p className="mt-1 text-sm text-ink-muted">
+          Sign in to keep writing where you left off.
+        </p>
+      </div>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-xs font-medium text-ink-muted">Email</span>
+        <input
+          type="email"
+          placeholder="you@company.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="field"
+          required
+        />
+      </label>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-xs font-medium text-ink-muted">Password</span>
+        <input
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="field"
+          required
+        />
+      </label>
+      {error && <p className="text-sm text-rust">{error}</p>}
+      <button type="submit" disabled={loading} className="btn-primary mt-1">
+        {loading ? "Signing in…" : "Sign in"}
       </button>
-      <a href="/register" className="text-center text-xs text-neutral-400">
+      <a
+        href="/register"
+        className="text-center text-xs text-ink-muted hover:text-ink"
+      >
         Need an account? Register
       </a>
     </form>
