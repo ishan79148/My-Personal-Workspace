@@ -32,7 +32,7 @@ export default async function WorkspaceHomePage({
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-1 min-h-[calc(100vh-3.5rem)]">
       <nav className="w-64 border-r border-line p-3">
         <PageTree nodes={tree} workspaceId={workspaceId} />
         <form action={handleCreateTopLevelPage} className="mt-2">
